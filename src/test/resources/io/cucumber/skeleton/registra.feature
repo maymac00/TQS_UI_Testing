@@ -9,7 +9,7 @@ Feature: registra
     Given I opened the browser at Springfield page
 
   Scenario: register a new account
-    When I create a new account with mail: 'vetalyrema@kamusinav.site' and pass 'Passwd1234'
+    When I create a new account with mail: 'qwerweweqegsqwer@kamusinav.site' and pass 'Passwd1234'
     Then the register is successfull
 
   Scenario: register a new account with non valid mail

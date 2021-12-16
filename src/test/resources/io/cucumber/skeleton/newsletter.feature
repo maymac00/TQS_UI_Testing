@@ -1,7 +1,7 @@
-Feature: add products to a cart
+Feature: subscribingg to newsletter
   Scenario: suscribe to newsletter
     Given I opened the browser at Springfield page
-    When I go to news letter and i sign up with 'mai2l@gmail.com', 'male', pc '08202'
+    When I go to news letter and i sign up with 'mail5@gmail.com', 'male', pc '08202'
     Then the signup is a success
 
   Scenario: codi postal no valid

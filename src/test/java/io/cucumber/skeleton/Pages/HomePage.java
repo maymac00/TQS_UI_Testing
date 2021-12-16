@@ -212,7 +212,7 @@ public class HomePage extends BasePage {
         webDriver.findElement(By.cssSelector("#cs-fashion-news")).click();
         sleep(2);
         webDriver.findElement(By.cssSelector("#newsletterForm > div.newsletter-thankyou-form > input")).click();
-        sleep(1);
+        sleep(2);
 
 
     }

@@ -135,7 +135,7 @@ public class StepDefinitions {
 
     @Then("im not logged")
     public void imNotLogged() throws InterruptedException {
-        assert login.isLogged();
+        assert !login.isLogged();
     }
 
     @Then("im already out")
@@ -240,7 +240,7 @@ public class StepDefinitions {
 
     @Then("the url is a correct for {string}")
     public void theUrlIsACorrect(String s) {
-        assert page.is_suport_correct(s);
+        assert !page.is_suport_correct(s);
     }
 }
 

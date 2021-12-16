@@ -1,20 +1,20 @@
-Feature: add products to a cart
-  Scenario: suscribe to newsletter
+Feature: Getting to client support pages
+  Scenario: getting to Entrega
     Given I opened the browser at Springfield page
     When I go to support and i click to 'Entrega'
     Then the url is a correct for 'Entrega'
 
-  Scenario: suscribe to newsletter
+  Scenario: getting to Pagos
     Given I opened the browser at Springfield page
     When I go to support and i click to 'Pagos'
     Then the url is a correct for 'Pagos'
 
-  Scenario: suscribe to newsletter
+  Scenario: getting to Devoluciones
     Given I opened the browser at Springfield page
     When I go to support and i click to 'Devoluciones'
     Then the url is a correct for 'Devoluciones'
 
-  Scenario: suscribe to newsletter
+  Scenario: getting to contacta
     Given I opened the browser at Springfield page
     When I go to support and i click to 'Contacta'
     Then the url is a correct for 'Contacta'
