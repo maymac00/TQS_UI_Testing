@@ -1,5 +1,4 @@
 package io.cucumber.skeleton.Pages;
-import io.cucumber.java.an.E;
 import io.cucumber.skeleton.BasePage;
 import io.cucumber.skeleton.Driver;
 import org.openqa.selenium.By;
@@ -140,14 +139,16 @@ public class HomePage extends BasePage {
 
     }
 
-    public void go_to_find_shop(String s) {
+    public void go_to_find_shop(String s) throws InterruptedException {
         webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__primary > div > div:nth-child(3) > a")).click();
+        webDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         sleep(2);
         webDriver.findElement(By.cssSelector("#addressAutocomplete")).sendKeys(s);
+        Thread.sleep(2000);
     }
 
     public boolean city_found(String city){
-        webDriver.findElement(By.xpath("//*[@id=" + city + "]/button/text()"));
+        webDriver.findElement(By.xpath("//*[text()=" + city + "]"));
         return true;
     }
 
@@ -194,5 +195,57 @@ public class HomePage extends BasePage {
     }
 
 
+    public void go_to_newsletter() {
+        webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__primary > div > div:nth-child(2) > a")).click();
+    }
 
+    public void submit_news(String mail, String gender, String pc) {
+        webDriver.findElement(By.cssSelector("#txt-email")).sendKeys(mail);
+        sleep(0.5);
+        if(Objects.equals(gender, "male"))
+            webDriver.findElement(By.cssSelector("#newsletter-i-am-gender-male")).click();
+        else
+            webDriver.findElement(By.cssSelector("#newsletter-i-am-gender-female")).click();
+        sleep(0.5);
+        webDriver.findElement(By.cssSelector("#txt-postal-code")).sendKeys(pc);
+        sleep(0.5);
+        webDriver.findElement(By.cssSelector("#cs-fashion-news")).click();
+        sleep(2);
+        webDriver.findElement(By.cssSelector("#newsletterForm > div.newsletter-thankyou-form > input")).click();
+        sleep(1);
+
+
+    }
+
+    public void isNewsSuccess() {
+        assertEquals(webDriver.getCurrentUrl(), "https://www2.hm.com/es_es/customer-service/thank-you.html?statusCode=success");
+
+    }
+
+    public void isNewsRepeated() {
+        assertEquals(webDriver.getCurrentUrl(), "https://www2.hm.com/es_es/customer-service/thank-you.html?statusCode=alreadySubscribed");
+    }
+
+    public void go_to_suport(String s) {
+        sleep(2);
+        webDriver.get("https://www2.hm.com/es_es/service-clients.html");
+        sleep(1);
+        switch (s){
+            case "Entrega": webDriver.findElement(By.cssSelector("#page-content > div > div:nth-child(4) > div > p:nth-child(1) > a")).click();break;
+            case "Pagos": webDriver.findElement(By.cssSelector("#page-content > div > div:nth-child(4) > div > p:nth-child(2) > a")).click();break;
+            case "Devoluciones": webDriver.findElement(By.cssSelector("#page-content > div > div:nth-child(4) > div > p:nth-child(3) > a")).click();break;
+            case "Contacta": webDriver.findElement(By.cssSelector("#page-content > div > div:nth-child(5) > div > p:nth-child(1) > a")).click();break;
+        }
+    }
+
+    public boolean is_suport_correct(String s) {
+        String url = "https://www2.hm.com/es_es/service-clients/shippinganddelivery.html";
+        switch (s){
+            case "Entrega": url = "https://www2.hm.com/es_es/service-clients/shippinganddelivery.html";
+            case "Pagos": url = "https://www2.hm.com/es_es/service-clients/payments-info.html";
+            case "Devoluciones": url = "https://www2.hm.com/es_es/service-clients/returns.html";
+            case "Contacta": url = "https://www2.hm.com/es_es/service-clients/contact.html";
+        }
+        return s.equals(url);
+    }
 }

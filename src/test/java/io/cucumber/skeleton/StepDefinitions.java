@@ -115,7 +115,7 @@ public class StepDefinitions {
     }
 
     @When("look for a shop in {string}")
-    public void lookForAShopInSabadell(String city) {
+    public void lookForAShopInSabadell(String city) throws InterruptedException {
         page.go_to_find_shop(city);
     }
 
@@ -214,6 +214,33 @@ public class StepDefinitions {
     @And("I delete {string} favorites")
     public void iDeleteFavorites(String arg0) throws InterruptedException {
         addFav.deleteFavourite(Integer.parseInt(arg0));
+    }
+
+    @When("I go to news letter and i sign up with {string}, {string}, pc {string}")
+    public void iGoToNewsLetterAndISignUpWithMailGmailComMalePc(String mail, String gender, String pc) throws InterruptedException {
+        Thread.sleep(2000);
+        page.go_to_newsletter();
+        page.submit_news(mail, gender, pc);
+    }
+
+    @Then("the signup is a success")
+    public void theSignupIsASuccess() {
+        page.isNewsSuccess();
+    }
+
+    @Then("the signup is a repeated")
+    public void theSignupIsARepeated() {
+        page.isNewsRepeated();
+    }
+
+    @When("I go to support and i click to {string}")
+    public void iGoToSupportAndIClickToEntrega(String s) {
+        page.go_to_suport(s);
+    }
+
+    @Then("the url is a correct for {string}")
+    public void theUrlIsACorrect(String s) {
+        assert page.is_suport_correct(s);
     }
 }
 
