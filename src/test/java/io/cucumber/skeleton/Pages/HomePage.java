@@ -1,4 +1,5 @@
 package io.cucumber.skeleton.Pages;
+import io.cucumber.java.an.E;
 import io.cucumber.skeleton.BasePage;
 import io.cucumber.skeleton.Driver;
 import org.openqa.selenium.By;
@@ -74,6 +75,8 @@ public class HomePage extends BasePage {
         String text=webDriver.findElement(By.xpath("//*[@id='page-content']/div[1]/ul/li[1]/article/div[2]/h3/a")).getText();
         if(text.contains(p)){
             webDriver.findElement(By.xpath("//*[@id='page-content']/div[1]/ul/li[1]/article/div[2]/h3/a")).click();
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            js.executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
         }
         else{
             //click on product
@@ -90,17 +93,11 @@ public class HomePage extends BasePage {
         selSize.click();
     }
     public void addToCart() throws InterruptedException {
-        WebElement buttonAdd=webDriver.findElement(By.cssSelector("#main-content > div.product.parbase > div.layout.pdp-wrapper.product-detail.sticky-footer-wrapper.js-reviews.fill-me-up > div.module.product-description.sticky-wrapper > div.sub-content.product-detail-info.product-detail-meta.inner.sticky-on-scroll.semi-sticky.sticky > div > div.product-item-buttons > div.product-button-wrapper > button"));
+        Thread.sleep(1000);
+
+        WebElement buttonAdd=webDriver.findElement(By.cssSelector("#main-content > div.product.parbase > div.layout.pdp-wrapper.product-detail.sticky-footer-wrapper.js-reviews > div.module.product-description.sticky-wrapper > div.sub-content.product-detail-info.product-detail-meta.inner.sticky-on-scroll.semi-sticky > div > div.product-item-buttons > div.product-button-wrapper > button"));
         Thread.sleep(3000);
-        //boolean notStock=webDriver.findElement(By.cssSelector("#main-content > div.product.parbase > div.layout.pdp-wrapper.product-detail.sticky-footer-wrapper.js-reviews > div.module.product-description.sticky-wrapper > div.sub-content.product-detail-info.product-detail-meta.inner.sticky-on-scroll.semi-sticky > div > div.product-item-buttons > div.product-button-wrapper > button > span")).isDisplayed();
-        //Thread.sleep(3000);
-        //System.out.println("notStock");
-        //System.out.println(notStock);
-        /*
-        if(notStock){
-            System.out.println("No stock");
-        }
-        */
+
         System.out.println("buttonAdd");
         System.out.println(buttonAdd);
         buttonAdd.click();
@@ -184,10 +181,18 @@ public class HomePage extends BasePage {
     }
 
     public int getNFavs() {
-        webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__session > li:nth-child(3) > a")).click();
-        sleep(1);
-        WebElement el=webDriver.findElement(By.cssSelector("#main-content > div.FadeInOut-module--container__1hPKG.FadeInOut-module--entered__3Jpc2 > p"));
-        System.out.println(el.getText());
-        return  Integer.parseInt(el.getText().split(" ")[0]);
+        try {
+            webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__session > li:nth-child(3) > a")).click();
+            sleep(1);
+            WebElement el=webDriver.findElement(By.cssSelector("#main-content > div.FadeInOut-module--container__1hPKG.FadeInOut-module--entered__3Jpc2 > p"));
+            System.out.println(el.getText());
+            return  Integer.parseInt(el.getText().split(" ")[0]);
+        }catch (Exception e){
+            return 0;
+        }
+
     }
+
+
+
 }

@@ -30,10 +30,11 @@ public class Driver {
 
     //Para quitarlo cuando finalice la prueba
     @After
-    public void closeBrowser() throws InterruptedException {
-        if(driver!=null){
-            Thread.sleep(3000);
-            driver.quit();
+    public static void closeBrowser() throws Exception{
+        if (driver == null) {
+            return;
         }
+        driver.quit();
+        driver = null;
     }
 }

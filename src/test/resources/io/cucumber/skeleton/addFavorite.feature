@@ -11,3 +11,11 @@ Feature: add a few products to favorites and check the number of favs
     When I make login with correct user and password
     And I add '2' product from 'americana' to favorites
     Then there are not '3' items in favorites
+
+  Scenario: favorites without logging
+    When I add '2' product from 'sudaderas' to favorites
+    Then there are not '3' items in favorites
+
+  Scenario: favorites without logging
+    When I add '2' product from 'sudaderas' to favorites
+    Then there are '2' items in favorites

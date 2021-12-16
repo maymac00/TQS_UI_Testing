@@ -4,10 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import io.cucumber.skeleton.Pages.AddInCart;
-import io.cucumber.skeleton.Pages.HomePage;
-import io.cucumber.skeleton.Pages.Login;
-import io.cucumber.skeleton.Pages.User;
+import io.cucumber.skeleton.Pages.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -15,7 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class StepDefinitions {
     HomePage page=new HomePage();
     Login login=new Login();
+    cookie cooki = new cookie();
     User user;
+    AddInCart addCart=new AddInCart();
+    Fav addFav=new Fav();
     @Given("I opened the browser at Springfield page")
     public void i_opened_the_browser_at_Springfield_page() {
         // Write code here that turns the phrase above into concrete actions
@@ -30,9 +30,9 @@ public class StepDefinitions {
         page.addToCart();
     }
     @Then("the shopping cart show the product is not {string}")
-    public void the_shopping_cart_show_the_product_is_not(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void the_shopping_cart_show_the_product_is_not(String string) throws InterruptedException {
+        int countbag=page.validateShoppingCart();
+        assertNotEquals(Integer.parseInt(string), countbag);
     }
 
     @When("I buy {string} first products from {string}")
@@ -165,6 +165,55 @@ public class StepDefinitions {
     public void thereArenTItemsInFavorites(String arg0) {
         int n = page.getNFavs();
         assertNotEquals(Integer.parseInt(arg0), n);
+    }
+
+    @When("I accept all cookies")
+    public void iAcceptAllCookies() {
+        cooki.acceptAllCookies();
+        page.findProduct("calcetines");
+        page.addFavorite(2);
+
+    }
+
+    @Then("cookie number is {string}")
+    public void cookieNumberIs(String arg0) {
+        int n = cooki.getCookieNumberr();
+        assertEquals(n, Integer.parseInt(arg0));
+    }
+
+    @When("I accept some cookies")
+    public void iAcceptSomeCookies() {
+        cooki.acceptSomeCookies();
+        page.findProduct("calcetines");
+        page.addFavorite(2);
+    }
+
+    @When("go to select cookies and select all")
+    public void goToSelectCookiesAndSelectMinimum() throws InterruptedException {
+        cooki.goConfig();
+    }
+
+    @When("I look for {string} and select any displayed result to go to the favourite list")
+    public void i_look_for_and_select_any_displayed_result_to_go_to_the_favourite_list(String string) throws InterruptedException {
+        addCart.findProduct(string);
+        addCart.chooseProduct(string);
+        addFav.chooseFavourite();
+    }
+    @Then("the favorites list is not null")
+    public void the_favorites_list_is_not_null() throws InterruptedException{
+        boolean aFav=addFav.validateFav();
+        assertEquals(true,aFav);
+    }
+
+    @Then("the product is removed from the favorites list")
+    public void the_product_is_removed_from_the_favorites_list() throws InterruptedException {
+        boolean delete=addFav.validateDeleteFav();
+        assertEquals(true,delete);
+    }
+
+    @And("I delete {string} favorites")
+    public void iDeleteFavorites(String arg0) throws InterruptedException {
+        addFav.deleteFavourite(Integer.parseInt(arg0));
     }
 }
 
