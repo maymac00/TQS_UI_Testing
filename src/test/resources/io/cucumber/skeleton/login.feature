@@ -12,6 +12,6 @@ Feature: Make login in the web H&M
     When I make login with incorrect password
     Then the login is not successfull
 
-  # Scenario: Do login with a existing user
-    # When I make login with correct user and password
-    # Then the login is successfull
+  Scenario: Do login with a existing user
+    When I make login with correct user and password
+    Then the login is successfull

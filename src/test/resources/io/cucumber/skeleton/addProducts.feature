@@ -5,10 +5,9 @@
 # 4.sistema de búsqueda
 # ...
 
-#Feature: add products to a cart
-
-  #Scenario: choose a product and it is displayed in the shopping cart successfully
-    #Given I opened the browser at Springfield page
-    #When I look for 'Calcetines' and select any displayed result to go to the shopping cart
-    #Then the shopping cart show the product is not 'null'
+Feature: add products to a cart
+  Scenario: choose a product and it is displayed in the shopping cart successfully
+    Given I opened the browser at Springfield page
+    When I look for 'Calcetines' and select any displayed result to go to the shopping cart
+    Then the shopping cart show the product is not 'null'
 

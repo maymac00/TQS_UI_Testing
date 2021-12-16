@@ -1,6 +1,5 @@
 package io.cucumber.skeleton.Pages;
 
-import io.cucumber.skeleton.BasePage;
 import io.cucumber.skeleton.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,9 +9,11 @@ import static java.lang.Thread.sleep;
 public class Login extends HomePage {
     Driver driver = new Driver();
     WebDriver webDriver = Driver.getDriver();
+    private boolean alreadyout;
 
     public void login(User user) throws InterruptedException {
-        //buttonLogin=webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__session > li:nth-child(1) > div > div:nth-child(3) > button"));
+        boolean correctLog=false;
+
         WebElement buttonLogin=webDriver.findElement(By.xpath("/html/body/header/nav/ul[1]/li[1]/div/a[1]"));
         Thread.sleep(1000);
         buttonLogin.click();
@@ -45,17 +46,19 @@ public class Login extends HomePage {
                 System.out.println("is the alert displayed?");
                 Thread.sleep(10000);
                 System.out.println(webDriver.findElement(By.id("modal-txt-signin-password-unknown-error-type-error")).isDisplayed());
+            }else {
+                correctLog=true;
+                System.out.println("USER AND PASSWORD CORRECT");
             }
-            System.out.println("USER AND PASSWORD CORRECT");
-            System.out.println("is the alert displayed?");
-            Thread.sleep(10000);
-            System.out.println(webDriver.findElement(By.id("modal-txt-signin-password-unknown-error-type-error")).isDisplayed());
+
         }
-        WebElement cross=webDriver.findElement(By.cssSelector("body > div.has-closebutton.is-popup.has-max-width.has-min-width.has-animate.has-ajax-url.remodal.club-modal-forms.remodal-open.remodal-active > div > button"));
-        System.out.println("cross");
-        System.out.println(cross);
-        Thread.sleep(3000);
-        cross.click();
+        if(!correctLog){
+            WebElement cross=webDriver.findElement(By.cssSelector("body > div.has-closebutton.is-popup.has-max-width.has-min-width.has-animate.has-ajax-url.remodal.club-modal-forms.remodal-open.remodal-active > div > button"));
+            System.out.println("cross");
+            System.out.println(cross);
+            Thread.sleep(3000);
+            cross.click();
+        }
     }
     public boolean isLogged() throws InterruptedException {
         boolean logged=false;
@@ -64,8 +67,18 @@ public class Login extends HomePage {
         logged=buttonlogout.isDisplayed();
         return logged;
     }
-    public void logout(){
-        WebElement buttonlogout=webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__session > li:nth-child(1) > div > a:nth-child(2)"));
-        buttonlogout.click();
+    public void logout() throws InterruptedException {
+        try {
+            Thread.sleep(3000);
+            webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__session > li:nth-child(1) > div > a:nth-child(2)")).click();
+            Thread.sleep(3000);
+            webDriver.findElement(By.cssSelector("#app > div > div > div > div > aside > div:nth-child(3) > nav > ul > li:nth-child(3) > a")).click();
+        }catch (Exception e) {
+            alreadyout = true;
+        }
+    }
+
+    public boolean alreadyout() {
+        return alreadyout;
     }
 }

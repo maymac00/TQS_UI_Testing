@@ -61,14 +61,14 @@ public class HomePage extends BasePage {
         WebElement product= webDriver.findElement(By.cssSelector("body > header > nav > a.menu__hm"));
         product.click();
     }
-    public void checkCartValue(double x){
+    public boolean checkCartValue(double x){
         WebElement cart = webDriver.findElement(By.cssSelector(".minicart a"));
         cart.click();
         sleep(2);
         WebElement val=webDriver.findElement(By.cssSelector("#sidebar-sticky-boundary > section.CartSidebar--wrapper__2D7xe.CartSidebar--reactCheckoutEnabledUpdatedSidebar__JyGkt > div > div > div.CartSidebar--sidebarContent__3nsmD.CartSidebar--isNotCompressedSidebar__1l9b2 > div.FadeIn-module--container__3nvOo.undefined > table > tfoot > tr > td"));
         System.out.println(val.getText());
         double price = Double.parseDouble(val.getText().replace(',','.').replace('€',' '));
-        assertEquals(x, price);
+        return x == price;
     }
     public void chooseProduct(String p){
         String text=webDriver.findElement(By.xpath("//*[@id='page-content']/div[1]/ul/li[1]/article/div[2]/h3/a")).getText();
@@ -141,5 +141,53 @@ public class HomePage extends BasePage {
         webDriver.findElement(By.cssSelector("body > div.has-closebutton.is-popup.has-max-width.has-min-width.has-animate.has-ajax-url.remodal.club-modal-forms.remodal-open.remodal-active > div > div > div > form > button")).click();
         sleep(2);
 
+    }
+
+    public void go_to_find_shop(String s) {
+        webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__primary > div > div:nth-child(3) > a")).click();
+        sleep(2);
+        webDriver.findElement(By.cssSelector("#addressAutocomplete")).sendKeys(s);
+    }
+
+    public boolean city_found(String city){
+        webDriver.findElement(By.xpath("//*[@id=" + city + "]/button/text()"));
+        return true;
+    }
+
+    public boolean registerSuccess() {
+        try{
+            webDriver.findElement(By.cssSelector("#modal-signin-email-email-format-error"));
+            return false;
+        }catch (Exception e){
+            try {
+
+            }catch (Exception e2){
+                webDriver.findElement(By.cssSelector("#modal-signin-password-tips-fullfilled-error"));
+                return false;
+            }
+            return true;
+        }
+    }
+
+    public void addFavorite(int i) {
+        for(int j = 0; j<i; j++){
+            WebElement product=webDriver.findElements(By.cssSelector("article .image-container a img")).get(j);
+            product.click();
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            js.executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
+
+            webDriver.findElement(By.cssSelector("#favourite_")).click();
+            sleep(2);
+            webDriver.navigate().back();
+        }
+
+    }
+
+    public int getNFavs() {
+        webDriver.findElement(By.cssSelector("body > header > nav > ul.menu__session > li:nth-child(3) > a")).click();
+        sleep(1);
+        WebElement el=webDriver.findElement(By.cssSelector("#main-content > div.FadeInOut-module--container__1hPKG.FadeInOut-module--entered__3Jpc2 > p"));
+        System.out.println(el.getText());
+        return  Integer.parseInt(el.getText().split(" ")[0]);
     }
 }

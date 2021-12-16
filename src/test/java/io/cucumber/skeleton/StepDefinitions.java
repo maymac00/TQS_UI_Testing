@@ -10,6 +10,7 @@ import io.cucumber.skeleton.Pages.Login;
 import io.cucumber.skeleton.Pages.User;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class StepDefinitions {
     HomePage page=new HomePage();
@@ -44,7 +45,12 @@ public class StepDefinitions {
 
     @Then("the shopping cart value is {string}")
     public void theShoppingCartValueIs(String arg0) {
-        page.checkCartValue(Double.parseDouble(arg0));
+        assert page.checkCartValue(Double.parseDouble(arg0));
+    }
+
+    @Then("the shopping cart value is not {string}")
+    public void theShoppingCartValueIsNot(String v) {
+        assert !page.checkCartValue(Double.parseDouble(v));
     }
 
     @When("I go to menu item {string}")
@@ -82,6 +88,22 @@ public class StepDefinitions {
         login.login(user);
     }
 
+    @When("I make login with correct user and password")
+    public void i_make_login_with_correct_user_and_password() {
+        // Write code here that turns the phrase above into concrete actions
+        boolean userCorrect=user.getUser().equals("nuriamba17@gmail.com");
+        boolean passCorrect=user.getPass().equals("Creacontra1");
+        System.out.println("User is correct:" + userCorrect);
+        System.out.println("Password is correct:" + passCorrect);
+        //throw new io.cucumber.java.PendingException();
+    }
+    @Then("the login is successfull")
+    public void the_login_is_successfull() throws InterruptedException {
+        // Write code here that turns the phrase above into concrete actions
+        login.login(user);
+        //throw new io.cucumber.java.PendingException();
+    }
+
     @When("I create a new account with mail: {string} and pass {string}")
     public void iCreateANewAccountWithUserKevinAndPassPasswd(String arg0, String arg1) {
         page.register(arg0,arg1);
@@ -90,6 +112,59 @@ public class StepDefinitions {
     @Then("the register is successfull")
     public void theRegisterIsSuccessfull() throws InterruptedException {
         assert login.isLogged();
+    }
+
+    @When("look for a shop in {string}")
+    public void lookForAShopInSabadell(String city) {
+        page.go_to_find_shop(city);
+    }
+
+    @Then("{string} is found")
+    public void cityIsFound(String arg0) {
+        assert page.city_found(arg0);
+    }
+    @Then("{string} is not found")
+    public void cityIsNotFound(String arg0) {
+        assert !page.city_found(arg0);
+    }
+
+    @When("I logout")
+    public void iLogout() throws InterruptedException {
+        login.logout();
+    }
+
+    @Then("im not logged")
+    public void imNotLogged() throws InterruptedException {
+        assert login.isLogged();
+    }
+
+    @Then("im already out")
+    public void imAlreadyOut() {
+        assert login.alreadyout();
+    }
+
+    @Then("the register is not successfull")
+    public void theRegisterIsNotSuccessfull() {
+        assert !page.registerSuccess();
+    }
+
+
+    @And("I add {string} product from {string} to favorites")
+    public void iAddAProductToFavorites(String i, String search) {
+        page.findProduct(search);
+        page.addFavorite(Integer.parseInt(i));
+    }
+
+    @Then("there are {string} items in favorites")
+    public void thereAreXItemsInFavorites(String arg0) {
+        int n = page.getNFavs();
+        assertEquals(Integer.parseInt(arg0), n);
+    }
+
+    @Then("there are not {string} items in favorites")
+    public void thereArenTItemsInFavorites(String arg0) {
+        int n = page.getNFavs();
+        assertNotEquals(Integer.parseInt(arg0), n);
     }
 }
 

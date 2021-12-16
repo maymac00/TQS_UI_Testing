@@ -11,3 +11,12 @@ Feature: registra
   Scenario: register a new account
     When I create a new account with mail: 'txhirstiness@virginiaintel.com' and pass 'Passwd1234'
     Then the register is successfull
+
+  Scenario: register a new account with non valid mail
+    When I create a new account with mail: 'qwer' and pass 'Passwd1234'
+    Then the register is not successfull
+
+  Scenario: register a new account with non valid mail
+    When I create a new account with mail: 'txhirstiness@virginiaintel.com' and pass 'passwd1234'
+    Then the register is not successfull
+
